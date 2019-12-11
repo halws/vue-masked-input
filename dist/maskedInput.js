@@ -68,8 +68,12 @@ export default {
         this.initMask();
       }
     },
-    value: function value(newValue) {
-      if (this.maskCore) this.maskCore.setValue(newValue); // For multiple inputs support
+
+    value: {
+      immediate: true,
+      handler: function handler(newValue) {
+        if (this.maskCore) this.maskCore.setValue(newValue); // For multiple inputs support
+      }
     }
   },
 
@@ -128,6 +132,7 @@ export default {
                 }
               }
             }
+            /* eslint-enable */
           });
         }
         [].concat(_toConsumableArray(this.$refs.input.value)).reduce(function (memo, item) {

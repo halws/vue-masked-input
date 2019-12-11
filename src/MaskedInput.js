@@ -59,8 +59,11 @@ export default {
         this.initMask();
       }
     },
-    value(newValue) {
-      if (this.maskCore) this.maskCore.setValue(newValue); // For multiple inputs support
+    value: {
+      immediate: true,
+      handler(newValue) {
+        if (this.maskCore) this.maskCore.setValue(newValue); // For multiple inputs support
+      }
     },
   },
 
@@ -140,7 +143,7 @@ export default {
           }
           break;
 
-        // left arrow
+          // left arrow
         case 37:
           e.preventDefault();
           if (this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
@@ -154,7 +157,7 @@ export default {
           this.updateToCoreState();
           break;
 
-        // right arrow
+          // right arrow
         case 39:
           e.preventDefault();
           if (this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
@@ -167,7 +170,7 @@ export default {
           this.updateToCoreState();
           break;
 
-        // end
+          // end
         case 35:
           e.preventDefault();
           this.$refs.input.selectionStart = this.$refs.input.value.length;
@@ -179,7 +182,7 @@ export default {
           this.updateToCoreState();
           break;
 
-        // home
+          // home
         case 36:
           e.preventDefault();
           this.$refs.input.selectionStart = 0;
@@ -191,7 +194,7 @@ export default {
           this.updateToCoreState();
           break;
 
-        // delete
+          // delete
         case 46:
           e.preventDefault();
           if (this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
@@ -217,7 +220,7 @@ export default {
       if (e.ctrlKey) return; // Fix FF copy/paste issue
       // IE & FF are not trigger textInput event, so we have to force it
       /* eslint-disable */
-      const isIE = /*@cc_on!@*/false || !!document.documentMode; //by http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
+      const isIE = /*@cc_on!@*/ false || !!document.documentMode; //by http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
       /* eslint-enable */
       const isFirefox = typeof InstallTrigger !== 'undefined';
       if (isIE || isFirefox) {
