@@ -60,9 +60,12 @@ export default {
       }
     },
     value: {
-      immediate: true,
       handler(newValue) {
-        if (this.maskCore) this.maskCore.setValue(newValue); // For multiple inputs support
+        if (this.maskCore && newValue) {
+          this.maskCore.setValue(newValue);
+          this.updateToCoreState();
+        } // For multiple inputs support
+
       }
     },
   },

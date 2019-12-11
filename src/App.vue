@@ -1,94 +1,116 @@
 <template>
-<div id="app">
-  <h2 style="float: right;"><a href="https://github.com/niksmr/vue-masked-input">GitHub</a></h2>
-  <h1>Vue Masked Input</h1>
+  <div id="app">
+    <h2 style="float: right;"><a href="https://github.com/niksmr/vue-masked-input">GitHub</a></h2>
+    <h1>Vue Masked Input</h1>
 
+    <h3>Dead simple masked input component for Vue.js 2.X</h3>
 
-  <h3>Dead simple masked input component for Vue.js 2.X</h3>
+    <hr />
+    <ul>
+      <li>1 – number</li>
+      <li>a – letter</li>
+      <li>A – letter, forced to upper case when entered</li>
+      <li>* – alphanumeric</li>
+      <li># – alphanumeric, forced to upper case when entered</li>
+      <li>+ – any character</li>
+    </ul>
 
-  <hr />
-  <ul>
-    <li>1 – number</li>
-    <li>a – letter</li>
-    <li>A – letter, forced to upper case when entered</li>
-    <li>* – alphanumeric</li>
-    <li># – alphanumeric, forced to upper case when entered</li>
-    <li>+ – any character</li>
-  </ul>
+    <h4>Date: </h4>
+    <masked-input
+      v-model="date"
+      mask="11 / 11 / 1111"
+      placeholder="Date"
+    /><span>{{ date }}</span>
+    <p class="code">
+      &lt;masked-input v-model="date" mask="11 / 11 / 1111" placeholder="Date" /&gt;
+    </p>
 
-  <h4>Date: </h4>
-  <masked-input v-model="date" mask="11 / 11 / 1111" placeholder="Date" /><span>{{ date }}</span>
-  <p class="code">
-    &lt;masked-input v-model="date" mask="11 / 11 / 1111" placeholder="Date" /&gt;
-  </p>
+    <h4>Phone: </h4>
+    <masked-input
+      v-model="phone"
+      mask="\+\1 (111) 1111-11"
+      placeholder="Phone"
+    /><span>{{ phone }}</span>
+    <p class="code">
+      &lt;masked-input v-model="phone" mask="\+\1 (111) 1111-11" placeholder="Phone" /&gt;
+    </p>
 
-  <h4>Phone: </h4>
-  <masked-input v-model="phone" mask="\+\1 (111) 1111-11" placeholder="Phone" /><span>{{ phone }}</span>
-  <p class="code">
-    &lt;masked-input v-model="phone" mask="\+\1 (111) 1111-11" placeholder="Phone" /&gt;
-  </p>
+    <h4>Get a raw value: </h4>
+    <masked-input
+      mask="\+\1 (111) 1111-11"
+      placeholder="Phone"
+      @input="rawVal = arguments[1]"
+    /><span>{{ rawVal }}</span>
+    <p class="code">
+      &lt;masked-input mask=&quot;\+\1 (111) 1111-11&quot; placeholder=&quot;Phone&quot; <br />&nbsp;&nbsp;@input=&quot;rawVal = arguments[1]&quot; /&gt;
+    </p>
 
-  <h4>Get a raw value: </h4>
-  <masked-input mask="\+\1 (111) 1111-11" placeholder="Phone" @input="rawVal = arguments[1]" /><span>{{ rawVal }}</span>
-  <p class="code">
-    &lt;masked-input mask=&quot;\+\1 (111) 1111-11&quot; placeholder=&quot;Phone&quot; <br />&nbsp;&nbsp;@input=&quot;rawVal = arguments[1]&quot; /&gt;
-  </p>
+    <h4>Your own mask (hot re-mask available): </h4>
+    <input
+      v-model="userMask"
+      placeholder="Mask"
+    />
+    <masked-input
+      v-model="userField"
+      :mask="userMask"
+      placeholder="Text"
+    /><span>{{ userField }}</span>
+    <br />
+    <br />
 
-  <h4>Your own mask (hot re-mask available): </h4>
-  <input v-model="userMask" placeholder="Mask" />
-  <masked-input v-model="userField" :mask="userMask" placeholder="Text" /><span>{{ userField }}</span>
-  <br />
-  <br />
+    <h4>Install </h4>
+    <p class="code">
+      npm install vue-masked-input --save
+    </p>
 
-  <h4>Install </h4>
-  <p class="code">
-    npm install vue-masked-input --save
-  </p>
+    <h4>Use</h4>
+    <p class="code">
+      import MaskedInput from 'vue-masked-input'
+      <br /> ... <br />components: { <br />&nbsp;&nbsp;MaskedInput <br />}
+    </p>
+    <br />
 
-  <h4>Use</h4>
-  <p class="code">
-    import MaskedInput from 'vue-masked-input'
-    <br /> ... <br />components: { <br />&nbsp;&nbsp;MaskedInput <br />}
-  </p>
-  <br />
-
-  <h4>Check <a href="https://github.com/niksmr/vue-masked-input">GitHub</a> for more</h4>
-  <br />
-</div>
+    <h4>Check <a href="https://github.com/niksmr/vue-masked-input">GitHub</a> for more</h4>
+    <br />
+  </div>
 </template>
 
 <script>
-import MaskedInput from './MaskedInput.js'
-import Vue from 'vue'
-import 'babel-polyfill'
+import MaskedInput from "./MaskedInput.js";
+import Vue from "vue";
+import "babel-polyfill";
 
 export default {
-  name: 'app',
+  name: "app",
   data: () => ({
-    date: '',
-    phone: '',
-    userMask: 'aa-aa-AAAA',
-    userField: '',
-    rawVal: ''
+    date: "",
+    phone: "",
+    userMask: "aa-aa-AAAA",
+    userField: "",
+    rawVal: ""
   }),
   components: {
     MaskedInput
+  },
+  created() {
+    setTimeout(() => {
+      this.phone = "720850315";
+    }, 1000);
   }
-
-}
+};
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900');
-@import url('https://fonts.googleapis.com/css?family=Overpass+Mono:400,700');
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900");
+@import url("https://fonts.googleapis.com/css?family=Overpass+Mono:400,700");
 body {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 #app {
   max-width: 780px;
   margin: auto;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   color: #2c3e50;
 }
 
@@ -105,7 +127,7 @@ input {
 
 hr {
   border: none;
-  border-bottom: 2px solid #DDD;
+  border-bottom: 2px solid #ddd;
 }
 
 h1 {
@@ -131,8 +153,8 @@ span {
 
 .code {
   padding: 24px;
-  font-family: 'Overpass Mono', monospace;
-  background-color: #EEE;
+  font-family: "Overpass Mono", monospace;
+  background-color: #eee;
   font-size: 0.95em;
   font-weight: 500;
   line-height: 1.5em;
