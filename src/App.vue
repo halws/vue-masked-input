@@ -26,21 +26,25 @@
     </p>
 
     <h4>Phone: </h4>
-    <masked-input
+    <!-- <masked-input
       v-model="phone"
       mask="\+\1 (111) 1111-11"
       placeholder="Phone"
-    /><span>{{ phone }}</span>
+    /><span>{{ phone }}</span> -->
     <p class="code">
       &lt;masked-input v-model="phone" mask="\+\1 (111) 1111-11" placeholder="Phone" /&gt;
     </p>
 
-    <h4>Get a raw value: </h4>
+    <h4>custom value a raw value: </h4>
     <masked-input
-      mask="\+\1 (111) 1111-11"
+      mask="Tel.: \+48 11 111 11 11"
       placeholder="Phone"
-      @input="rawVal = arguments[1]"
+      :key="key"
+      v-model="phone"
+      @input="wtf"
+      :value="phone"
     /><span>{{ rawVal }}</span>
+    <!-- @input="wtf" -->
     <p class="code">
       &lt;masked-input mask=&quot;\+\1 (111) 1111-11&quot; placeholder=&quot;Phone&quot; <br />&nbsp;&nbsp;@input=&quot;rawVal = arguments[1]&quot; /&gt;
     </p>
@@ -84,19 +88,26 @@ export default {
   name: "app",
   data: () => ({
     date: "",
+    key: 1,
     phone: "",
     userMask: "aa-aa-AAAA",
     userField: "",
-    rawVal: ""
+    rawVal: "",
   }),
   components: {
-    MaskedInput
+    MaskedInput,
+  },
+  methods: {
+    wtf() {
+      console.log(arguments);
+    },
   },
   created() {
     setTimeout(() => {
       this.phone = "720850315";
+      this.key = this.key + 1;
     }, 1000);
-  }
+  },
 };
 </script>
 

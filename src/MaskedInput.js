@@ -40,7 +40,8 @@ export default {
     },
     mask: {
       required: true,
-      validator: value => !!((value && value.length >= 1) || value instanceof Object),
+      validator: value =>
+        !!((value && value.length >= 1) || value instanceof Object),
     },
     placeholderChar: {
       type: String,
@@ -65,13 +66,15 @@ export default {
           this.maskCore.setValue(newValue);
           this.updateToCoreState();
         } // For multiple inputs support
-
-      }
+      },
     },
   },
 
-  mounted() {
+  async mounted() {
     this.initMask();
+    await this.$nextTick();
+
+    this.updateToCoreState();
   },
 
   methods: {
@@ -86,10 +89,10 @@ export default {
             placeholderChar: this.placeholderChar,
             /* eslint-disable quote-props */
             formatCharacters: {
-              'a': {
+              a: {
                 validate: char => /^[A-Za-zА-Яа-я]$/.test(char),
               },
-              'A': {
+              A: {
                 validate: char => /^[A-Za-zА-Яа-я]$/.test(char),
                 transform: char => char.toUpperCase(),
               },
@@ -107,7 +110,10 @@ export default {
             /* eslint-enable */
           });
         }
-        [...this.$refs.input.value].reduce((memo, item) => this.maskCore.input(item), null);
+        [...this.$refs.input.value].reduce(
+          (memo, item) => this.maskCore.input(item),
+          null,
+        );
         this.maskCore.setSelection({
           start: 0,
           end: 0,
@@ -127,7 +133,8 @@ export default {
       return this.maskCore ? this.maskCore.getValue() : '';
     },
 
-    keyDown(e) { // Always
+    keyDown(e) {
+      // Always
       if (this.maskCore === null) {
         e.preventDefault();
         return;
@@ -146,10 +153,12 @@ export default {
           }
           break;
 
-          // left arrow
+        // left arrow
         case 37:
           e.preventDefault();
-          if (this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
+          if (
+            this.$refs.input.selectionStart === this.$refs.input.selectionEnd
+          ) {
             // this.$refs.input.selectionEnd = this.$refs.input.selectionStart - 1; @TODO
             this.$refs.input.selectionStart -= 1;
           }
@@ -160,10 +169,12 @@ export default {
           this.updateToCoreState();
           break;
 
-          // right arrow
+        // right arrow
         case 39:
           e.preventDefault();
-          if (this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
+          if (
+            this.$refs.input.selectionStart === this.$refs.input.selectionEnd
+          ) {
             this.$refs.input.selectionEnd += 1;
           }
           this.maskCore.selection = {
@@ -173,7 +184,7 @@ export default {
           this.updateToCoreState();
           break;
 
-          // end
+        // end
         case 35:
           e.preventDefault();
           this.$refs.input.selectionStart = this.$refs.input.value.length;
@@ -185,7 +196,7 @@ export default {
           this.updateToCoreState();
           break;
 
-          // home
+        // home
         case 36:
           e.preventDefault();
           this.$refs.input.selectionStart = 0;
@@ -197,10 +208,12 @@ export default {
           this.updateToCoreState();
           break;
 
-          // delete
+        // delete
         case 46:
           e.preventDefault();
-          if (this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
+          if (
+            this.$refs.input.selectionStart === this.$refs.input.selectionEnd
+          ) {
             this.maskCore.setValue('');
             this.maskCore.setSelection({
               start: 0,
@@ -219,7 +232,8 @@ export default {
       }
     },
 
-    keyPress(e) { // works only on Desktop
+    keyPress(e) {
+      // works only on Desktop
       if (e.ctrlKey) return; // Fix FF copy/paste issue
       // IE & FF are not trigger textInput event, so we have to force it
       /* eslint-disable */
@@ -242,13 +256,13 @@ export default {
     },
 
     keyUp(e) {
-      if (e.keyCode === 9) { // Preven change selection for Tab in
+      if (e.keyCode === 9) {
+        // Preven change selection for Tab in
         return;
       }
       this.updateToCoreState();
       this.updateAfterAll = false;
     },
-
 
     cut(e) {
       e.preventDefault();
@@ -276,7 +290,11 @@ export default {
       }
       if (this.$refs.input.value !== this.maskCore.getValue()) {
         this.$refs.input.value = this.maskCore.getValue();
-        this.$emit('input', this.$refs.input.value, this.maskCore.getRawValue());
+        this.$emit(
+          'input',
+          this.$refs.input.value,
+          this.maskCore.getRawValue(),
+        );
       }
       this.$refs.input.selectionStart = this.maskCore.selection.start;
       this.$refs.input.selectionEnd = this.maskCore.selection.end;
@@ -306,8 +324,10 @@ export default {
     },
 
     mouseUp() {
-      if (this.isEmpty() &&
-        this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
+      if (
+        this.isEmpty() &&
+        this.$refs.input.selectionStart === this.$refs.input.selectionEnd
+      ) {
         this.maskCore.setSelection({
           start: 0,
           end: 0,

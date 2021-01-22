@@ -79,8 +79,11 @@ export default {
     }
   },
 
-  mounted: function mounted() {
+  mounted: async function mounted() {
     this.initMask();
+    await this.$nextTick();
+
+    this.updateToCoreState();
   },
 
 
@@ -98,13 +101,13 @@ export default {
             placeholderChar: this.placeholderChar,
             /* eslint-disable quote-props */
             formatCharacters: {
-              'a': {
+              a: {
                 validate: function validate(char) {
                   return (/^[A-Za-zА-Яа-я]$/.test(char)
                   );
                 }
               },
-              'A': {
+              A: {
                 validate: function validate(char) {
                   return (/^[A-Za-zА-Яа-я]$/.test(char)
                   );
