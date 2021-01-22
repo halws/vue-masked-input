@@ -4105,10 +4105,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default */])();
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  name: 'MaskedInput',
+  name: "MaskedInput",
   render: function render(h) {
-    return h('input', {
-      ref: 'input',
+    return h("input", {
+      ref: "input",
       attrs: {
         disabled: this.maskCore === null || this.disabled
       },
@@ -4150,7 +4150,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
     },
     placeholderChar: {
       type: String,
-      default: '_',
+      default: "_",
       validator: function validator(value) {
         return !!(value && value.length === 1);
       }
@@ -4169,6 +4169,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
     },
 
     value: {
+      immediate: true,
       handler: function handler(newValue) {
         if (this.maskCore && newValue) {
           this.maskCore.setValue(newValue);
@@ -4182,7 +4183,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
     this.initMask();
     await this.$nextTick();
 
-    this.updateToCoreState();
+    // this.updateToCoreState();
   },
 
 
@@ -4196,7 +4197,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
         } else {
           this.maskCore = new __WEBPACK_IMPORTED_MODULE_0_inputmask_core___default.a({
             pattern: this.mask,
-            value: '',
+            value: "",
             placeholderChar: this.placeholderChar,
             /* eslint-disable quote-props */
             formatCharacters: {
@@ -4215,13 +4216,13 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
                   return char.toUpperCase();
                 }
               },
-              '*': {
+              "*": {
                 validate: function validate(char) {
                   return (/^[\dA-Za-zА-Яа-я]$/.test(char)
                   );
                 }
               },
-              '#': {
+              "#": {
                 validate: function validate(char) {
                   return (/^[\dA-Za-zА-Яа-я]$/.test(char)
                   );
@@ -4230,7 +4231,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
                   return char.toUpperCase();
                 }
               },
-              '+': {
+              "+": {
                 validate: function validate() {
                   return true;
                 }
@@ -4246,19 +4247,19 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
           start: 0,
           end: 0
         });
-        if (this.$refs.input.value === '') {
-          this.$emit('input', '', '');
+        if (this.$refs.input.value === "") {
+          this.$emit("input", "", "");
         } else {
           this.updateToCoreState();
         }
       } catch (e) {
         this.maskCore = null;
-        this.$refs.input.value = 'Error';
-        this.$emit('input', this.$refs.input.value, '');
+        this.$refs.input.value = "Error";
+        this.$emit("input", this.$refs.input.value, "");
       }
     },
     getValue: function getValue() {
-      return this.maskCore ? this.maskCore.getValue() : '';
+      return this.maskCore ? this.maskCore.getValue() : "";
     },
     keyDown: function keyDown(e) {
       // Always
@@ -4332,7 +4333,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
         case 46:
           e.preventDefault();
           if (this.$refs.input.selectionStart === this.$refs.input.selectionEnd) {
-            this.maskCore.setValue('');
+            this.maskCore.setValue("");
             this.maskCore.setSelection({
               start: 0,
               end: 0
@@ -4356,7 +4357,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
       /* eslint-disable */
       var isIE = /*@cc_on!@*/false || !!document.documentMode; //by http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
       /* eslint-enable */
-      var isFirefox = typeof InstallTrigger !== 'undefined';
+      var isFirefox = typeof InstallTrigger !== "undefined";
       if (isIE || isFirefox) {
         e.preventDefault();
         e.data = e.key;
@@ -4382,7 +4383,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
       e.preventDefault();
       if (this.$refs.input.selectionStart !== this.$refs.input.selectionEnd) {
         try {
-          document.execCommand('copy');
+          document.execCommand("copy");
         } catch (err) {} // eslint-disable-line no-empty
         this.maskCore.backspace();
         this.updateToCoreState();
@@ -4393,7 +4394,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
       var _this2 = this;
 
       e.preventDefault();
-      var text = e.clipboardData.getData('text');
+      var text = e.clipboardData.getData("text");
       [].concat(_toConsumableArray(text)).reduce(function (memo, item) {
         return _this2.maskCore.input(item);
       }, null);
@@ -4405,7 +4406,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
       }
       if (this.$refs.input.value !== this.maskCore.getValue()) {
         this.$refs.input.value = this.maskCore.getValue();
-        this.$emit('input', this.$refs.input.value, this.maskCore.getRawValue());
+        this.$emit("input", this.$refs.input.value, this.maskCore.getRawValue());
       }
       this.$refs.input.selectionStart = this.maskCore.selection.start;
       this.$refs.input.selectionEnd = this.maskCore.selection.end;
@@ -4416,12 +4417,12 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__ff_polyfill__["a" /* default 
     },
     focusOut: function focusOut() {
       if (this.isEmpty()) {
-        this.$refs.input.value = '';
+        this.$refs.input.value = "";
         this.maskCore.setSelection({
           start: 0,
           end: 0
         });
-        this.$emit('input', '', '');
+        this.$emit("input", "", "");
       }
     },
     setNativeSelection: function setNativeSelection() {

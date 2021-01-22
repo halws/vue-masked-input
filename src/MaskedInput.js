@@ -1,13 +1,13 @@
-import InputMask from 'inputmask-core';
-import ffpoly from './ff-polyfill'; // Firefox Polyfill for focus events
+import InputMask from "inputmask-core";
+import ffpoly from "./ff-polyfill"; // Firefox Polyfill for focus events
 
 ffpoly();
 
 export default {
-  name: 'MaskedInput',
+  name: "MaskedInput",
   render(h) {
-    return h('input', {
-      ref: 'input',
+    return h("input", {
+      ref: "input",
       attrs: {
         disabled: this.maskCore === null || this.disabled,
       },
@@ -40,13 +40,13 @@ export default {
     },
     mask: {
       required: true,
-      validator: value =>
+      validator: (value) =>
         !!((value && value.length >= 1) || value instanceof Object),
     },
     placeholderChar: {
       type: String,
-      default: '_',
-      validator: value => !!(value && value.length === 1),
+      default: "_",
+      validator: (value) => !!(value && value.length === 1),
     },
     disabled: {
       type: Boolean,
@@ -61,6 +61,7 @@ export default {
       }
     },
     value: {
+      immediate: true,
       handler(newValue) {
         if (this.maskCore && newValue) {
           this.maskCore.setValue(newValue);
@@ -74,7 +75,7 @@ export default {
     this.initMask();
     await this.$nextTick();
 
-    this.updateToCoreState();
+    // this.updateToCoreState();
   },
 
   methods: {
@@ -85,25 +86,25 @@ export default {
         } else {
           this.maskCore = new InputMask({
             pattern: this.mask,
-            value: '',
+            value: "",
             placeholderChar: this.placeholderChar,
             /* eslint-disable quote-props */
             formatCharacters: {
               a: {
-                validate: char => /^[A-Za-zА-Яа-я]$/.test(char),
+                validate: (char) => /^[A-Za-zА-Яа-я]$/.test(char),
               },
               A: {
-                validate: char => /^[A-Za-zА-Яа-я]$/.test(char),
-                transform: char => char.toUpperCase(),
+                validate: (char) => /^[A-Za-zА-Яа-я]$/.test(char),
+                transform: (char) => char.toUpperCase(),
               },
-              '*': {
-                validate: char => /^[\dA-Za-zА-Яа-я]$/.test(char),
+              "*": {
+                validate: (char) => /^[\dA-Za-zА-Яа-я]$/.test(char),
               },
-              '#': {
-                validate: char => /^[\dA-Za-zА-Яа-я]$/.test(char),
-                transform: char => char.toUpperCase(),
+              "#": {
+                validate: (char) => /^[\dA-Za-zА-Яа-я]$/.test(char),
+                transform: (char) => char.toUpperCase(),
               },
-              '+': {
+              "+": {
                 validate: () => true,
               },
             },
@@ -112,25 +113,25 @@ export default {
         }
         [...this.$refs.input.value].reduce(
           (memo, item) => this.maskCore.input(item),
-          null,
+          null
         );
         this.maskCore.setSelection({
           start: 0,
           end: 0,
         });
-        if (this.$refs.input.value === '') {
-          this.$emit('input', '', '');
+        if (this.$refs.input.value === "") {
+          this.$emit("input", "", "");
         } else {
           this.updateToCoreState();
         }
       } catch (e) {
         this.maskCore = null;
-        this.$refs.input.value = 'Error';
-        this.$emit('input', this.$refs.input.value, '');
+        this.$refs.input.value = "Error";
+        this.$emit("input", this.$refs.input.value, "");
       }
     },
     getValue() {
-      return this.maskCore ? this.maskCore.getValue() : '';
+      return this.maskCore ? this.maskCore.getValue() : "";
     },
 
     keyDown(e) {
@@ -214,7 +215,7 @@ export default {
           if (
             this.$refs.input.selectionStart === this.$refs.input.selectionEnd
           ) {
-            this.maskCore.setValue('');
+            this.maskCore.setValue("");
             this.maskCore.setSelection({
               start: 0,
               end: 0,
@@ -239,7 +240,7 @@ export default {
       /* eslint-disable */
       const isIE = /*@cc_on!@*/ false || !!document.documentMode; //by http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
       /* eslint-enable */
-      const isFirefox = typeof InstallTrigger !== 'undefined';
+      const isFirefox = typeof InstallTrigger !== "undefined";
       if (isIE || isFirefox) {
         e.preventDefault();
         e.data = e.key;
@@ -268,7 +269,7 @@ export default {
       e.preventDefault();
       if (this.$refs.input.selectionStart !== this.$refs.input.selectionEnd) {
         try {
-          document.execCommand('copy');
+          document.execCommand("copy");
         } catch (err) {} // eslint-disable-line no-empty
         this.maskCore.backspace();
         this.updateToCoreState();
@@ -279,7 +280,7 @@ export default {
 
     paste(e) {
       e.preventDefault();
-      const text = e.clipboardData.getData('text');
+      const text = e.clipboardData.getData("text");
       [...text].reduce((memo, item) => this.maskCore.input(item), null);
       this.updateToCoreState();
     },
@@ -291,9 +292,9 @@ export default {
       if (this.$refs.input.value !== this.maskCore.getValue()) {
         this.$refs.input.value = this.maskCore.getValue();
         this.$emit(
-          'input',
+          "input",
           this.$refs.input.value,
-          this.maskCore.getRawValue(),
+          this.maskCore.getRawValue()
         );
       }
       this.$refs.input.selectionStart = this.maskCore.selection.start;
@@ -307,12 +308,12 @@ export default {
 
     focusOut() {
       if (this.isEmpty()) {
-        this.$refs.input.value = '';
+        this.$refs.input.value = "";
         this.maskCore.setSelection({
           start: 0,
           end: 0,
         });
-        this.$emit('input', '', '');
+        this.$emit("input", "", "");
       }
     },
 
